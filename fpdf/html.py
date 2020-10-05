@@ -183,7 +183,7 @@ class HTML2FPDF(HTMLParser):
         if tag in self.hsize:
             k = self.hsize[tag]
             self.pdf.ln(5*k)
-            self.pdf.set_text_color(self.hsize_color)
+            self.pdf.set_text_color(self.hsize_color[0], self.hsize_color[1], self.hsize_color[2])
             self.pdf.set_font_size(12 * k)
             if attrs: self.align = attrs.get('align')
         if tag=='hr':
