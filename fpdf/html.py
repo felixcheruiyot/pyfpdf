@@ -177,7 +177,7 @@ class HTML2FPDF(HTMLParser):
         if tag=='br':
             self.pdf.ln(5)
         if tag=='p':
-            self.pdf.ln(6)
+            self.pdf.ln(5)
             if attrs:
                 if attrs: self.align = attrs.get('align')
         if tag in self.hsize:
@@ -351,7 +351,7 @@ class HTML2FPDF(HTMLParser):
             self.font_face = face
         if size:
             self.font_size = size
-            self.h = size / 72.0*25.4
+            self.h = size / 60.0*25.4
             if DEBUG: print("H", self.h)
         self.pdf.set_font(self.font_face or 'times','',12)
         self.pdf.set_font_size(self.font_size or 12)
