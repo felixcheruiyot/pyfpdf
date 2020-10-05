@@ -26,7 +26,7 @@ def hex2dec(color = "#000000"):
 class HTML2FPDF(HTMLParser):
     "Render basic HTML to FPDF"
 
-    def __init__(self, pdf, image_map=None):
+    def __init__(self, pdf, image_map=None, options={}):
         HTMLParser.__init__(self)
         self.style = {}
         self.pre = False
@@ -40,8 +40,8 @@ class HTML2FPDF(HTMLParser):
         self.r = self.g = self.b = 0
         self.indent = 0
         self.bullet = []
-        self.set_font("times", 12)
-        self.font_face = "times"    # initialize font
+        self.set_font(options.get("font","times"), options.get("font_size", 12))
+        self.font_face = options.get("font","times") # initialize font
         self.color = 0              #initialize font color
         self.table = None           # table attributes
         self.table_col_width = None # column (header) widths
@@ -55,6 +55,7 @@ class HTML2FPDF(HTMLParser):
         self.tfoot = None
         self.theader_out = self.tfooter_out = False
         self.hsize = dict(h1=2, h2=1.5, h3=1.17, h4=1, h5=0.83, h6=0.67)
+        self.hsize_color = hex2dec(options.get("hsize_color", "#000000"))
         
     def width2mm(self, length):
         if length[-1]=='%':
@@ -182,7 +183,7 @@ class HTML2FPDF(HTMLParser):
         if tag in self.hsize:
             k = self.hsize[tag]
             self.pdf.ln(5*k)
-            self.pdf.set_text_color(150,0,0)
+            self.pdf.set_text_color(self.hsize_color)
             self.pdf.set_font_size(12 * k)
             if attrs: self.align = attrs.get('align')
         if tag=='hr':
@@ -394,9 +395,9 @@ class HTML2FPDF(HTMLParser):
         self.pdf.ln(3)
 
 class HTMLMixin(object):
-    def write_html(self, text, image_map=None):
+    def write_html(self, text, image_map=None, options={}):
         "Parse HTML and convert it to PDF"
-        h2p = HTML2FPDF(self, image_map)
+        h2p = HTML2FPDF(self, image_map, options)
         text = h2p.unescape(text) # To deal with HTML entities
         h2p.feed(text)
 
