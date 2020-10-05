@@ -177,7 +177,7 @@ class HTML2FPDF(HTMLParser):
         if tag=='br':
             self.pdf.ln(5)
         if tag=='p':
-            self.pdf.ln(5)
+            self.pdf.ln(6)
             if attrs:
                 if attrs: self.align = attrs.get('align')
         if tag in self.hsize:
